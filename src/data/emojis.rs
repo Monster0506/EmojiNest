@@ -11,7 +11,6 @@ pub struct Emoji {
 }
 
 pub const CATEGORIES: &[(&str, &str)] = &[
-    ("all", "All"),
     ("smileys-emotion", "Smileys"),
     ("people-body", "People"),
     ("animals-nature", "Nature"),
@@ -23,20 +22,18 @@ pub const CATEGORIES: &[(&str, &str)] = &[
     ("flags", "Flags"),
 ];
 
-const OPENMOJI_URL: &str = "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/data/openmoji.json";
+const OPENMOJI_URL: &str =
+    "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/data/openmoji.json";
 
 pub async fn fetch_emojis() -> Vec<Emoji> {
     match gloo_net::http::Request::get(OPENMOJI_URL).send().await {
-        Ok(response) => {
-            match response.json::<Vec<Emoji>>().await {
-                Ok(all) => {
-                    all.into_iter()
-                        .filter(|e| !e.annotation.contains("skin tone"))
-                        .collect()
-                }
-                Err(_) => vec![]
-            }
-        }
-        Err(_) => vec![]
+        Ok(response) => match response.json::<Vec<Emoji>>().await {
+            Ok(all) => all
+                .into_iter()
+                .filter(|e| !e.annotation.contains("skin tone"))
+                .collect(),
+            Err(_) => vec![],
+        },
+        Err(_) => vec![],
     }
 }

@@ -111,7 +111,7 @@ pub fn App() -> impl IntoView {
         let category = selected_category.get();
         all.iter()
             .filter(|e| {
-                let matches_category = category == "all" || e.group == category;
+                let matches_category = e.group == category;
                 let matches_search = query.is_empty()
                     || e.annotation.to_lowercase().contains(&query)
                     || e.tags.to_lowercase().contains(&query);
@@ -169,7 +169,7 @@ pub fn App() -> impl IntoView {
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title is-1 has-text-centered app-title">
-                        "🪺 EmojiNest"
+                        "🪹 EmojiNest 🪺"
                     </h1>
                     <p class="subtitle has-text-centered has-text-white-ter">
                         "Find the perfect emoji instantly"
@@ -191,7 +191,7 @@ pub fn App() -> impl IntoView {
                         when=move || !is_loading.get()
                         fallback=|| view! {
                             <div class="has-text-centered py-6">
-                                <p class="is-size-4">"🔄 Loading emojis..."</p>
+                                <p class="is-size-4">"Loading emojis..."</p>
                             </div>
                         }
                     >
