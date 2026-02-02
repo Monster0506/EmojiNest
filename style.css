@@ -71,6 +71,60 @@ body {
     opacity: 1;
 }
 
+/* Custom Tooltip */
+.emoji-card::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background: rgba(20, 20, 30, 0.95);
+    color: #fff;
+    padding: 0.5rem 0.875rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s 0.2s;
+    z-index: 100;
+    pointer-events: none;
+}
+
+/* Tooltip arrow */
+.emoji-card::after {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(20, 20, 30, 0.95);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0s 0.2s;
+    z-index: 100;
+    pointer-events: none;
+}
+
+/* Show tooltip after 0.375s delay */
+.emoji-card:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    transition: opacity 0.2s ease 0.375s, transform 0.2s ease 0.375s, visibility 0s 0.375s;
+}
+
+.emoji-card:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease 0.75s, visibility 0s 0.75s;
+}
+
 /* ================================
    Sonner-Style Toast System
    ================================ */

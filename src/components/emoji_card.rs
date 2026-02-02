@@ -15,7 +15,7 @@ pub fn EmojiCard(
         <div
             class="emoji-card"
             on:click=move |_| on_click(emoji_for_click.clone())
-            title=name_for_title
+            data-tooltip=name_for_title
         >
             <span class="emoji">{emoji_char}</span>
             <span class="emoji-name">{name}</span>
