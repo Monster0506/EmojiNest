@@ -46,6 +46,15 @@ pub fn App() -> impl IntoView {
             let emojis = fetch_emojis().await;
             set_all_emojis.set(emojis);
             set_is_loading.set(false);
+
+            gloo_timers::future::TimeoutFuture::new(500).await;
+            if let Some(window) = web_sys::window() {
+                if let Some(document) = window.document() {
+                    if let Some(loading) = document.get_element_by_id("loading-screen") {
+                        let _ = loading.remove();
+                    }
+                }
+            }
         });
     });
 
