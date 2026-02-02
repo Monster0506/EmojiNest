@@ -1,0 +1,253 @@
+/* ================================
+   EmojiNest - Custom Styles
+   ================================ */
+
+:root {
+    --toast-bg: rgba(30, 30, 30, 0.95);
+    --toast-text: #fff;
+    --toast-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    --emoji-card-bg: #f9f9f9;
+    --emoji-card-hover: #fff;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ================================
+   Emoji Grid
+   ================================ */
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.75rem;
+    padding: 1rem;
+}
+
+.emoji-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--emoji-card-bg);
+    border-radius: 12px;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    position: relative;
+}
+
+.emoji-card:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    background: var(--emoji-card-hover);
+    z-index: 10;
+}
+
+.emoji-card:active {
+    transform: scale(0.95);
+}
+
+.emoji-card .emoji {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.emoji-card .emoji-name {
+    font-size: 0.65rem;
+    color: #666;
+    text-align: center;
+    margin-top: 0.25rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.emoji-card:hover .emoji-name {
+    opacity: 1;
+}
+
+/* ================================
+   Sonner-Style Toast System
+   ================================ */
+.toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.toast {
+    background: var(--toast-bg);
+    color: var(--toast-text);
+    padding: 0.875rem 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--toast-shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    pointer-events: auto;
+    animation: toast-slide-in 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+    backdrop-filter: blur(8px);
+}
+
+.toast.exiting {
+    animation: toast-slide-out 0.3s cubic-bezier(0.06, 0.71, 0.55, 1) forwards;
+}
+
+.toast-emoji {
+    font-size: 1.5rem;
+}
+
+@keyframes toast-slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(100%) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes toast-slide-out {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20%) scale(0.95);
+    }
+}
+
+/* Stacking effect for multiple toasts */
+.toast-container .toast:nth-child(2) {
+    transform: scale(0.95);
+    opacity: 0.85;
+}
+.toast-container .toast:nth-child(3) {
+    transform: scale(0.9);
+    opacity: 0.7;
+}
+.toast-container .toast:nth-child(n+4) {
+    transform: scale(0.85);
+    opacity: 0.5;
+}
+
+/* ================================
+   Search & Filter Styles
+   ================================ */
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-input {
+    border-radius: 50px !important;
+    padding-left: 1.5rem !important;
+    font-size: 1.1rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: none !important;
+}
+
+.search-input:focus {
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.category-btn {
+    border-radius: 20px !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.category-btn.is-active {
+    background: #667eea !important;
+    border-color: #667eea !important;
+    color: white !important;
+}
+
+/* ================================
+   Recently Copied Section
+   ================================ */
+.recently-copied {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.recently-copied .emoji-item {
+    font-size: 1.75rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.recently-copied .emoji-item:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.15);
+}
+
+/* ================================
+   Hero / Header
+   ================================ */
+.hero-body {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.app-title {
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ================================
+   Main Content Card
+   ================================ */
+.main-card {
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+/* ================================
+   Responsive Adjustments
+   ================================ */
+@media (max-width: 768px) {
+    .emoji-grid {
+        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .emoji-card .emoji {
+        font-size: 2rem;
+    }
+
+    .toast-container {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    .toast {
+        width: 100%;
+    }
+}
