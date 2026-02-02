@@ -35,7 +35,7 @@ pub fn App() -> impl IntoView {
     let (all_emojis, set_all_emojis) = signal(Vec::<Emoji>::new());
     let (is_loading, set_is_loading) = signal(true);
     let (search_query, set_search_query) = signal(String::new());
-    let (selected_category, set_selected_category) = signal("all".to_string());
+    let (selected_category, set_selected_category) = signal("smileys-emotion".to_string());
     let (recently_copied, set_recently_copied) = signal(load_recent_from_storage());
     let (toasts, set_toasts) = signal(Vec::<Toast>::new());
     let (toast_id, set_toast_id) = signal(0u32);
@@ -56,6 +56,53 @@ pub fn App() -> impl IntoView {
                 }
             }
         });
+    });
+
+    // Keyboard shortcuts
+    Effect::new(move || {
+        use wasm_bindgen::JsCast;
+        use wasm_bindgen::prelude::*;
+
+        let window = web_sys::window().unwrap();
+        let document = window.document().unwrap();
+
+        let closure =
+            Closure::<dyn Fn(web_sys::KeyboardEvent)>::new(move |event: web_sys::KeyboardEvent| {
+                // Don't trigger if typing in an input
+                if let Some(target) = event.target() {
+                    if let Some(element) = target.dyn_ref::<web_sys::HtmlElement>() {
+                        let tag = element.tag_name().to_lowercase();
+                        if tag == "input" || tag == "textarea" {
+                            return;
+                        }
+                    }
+                }
+
+                let key = event.key();
+                let window = web_sys::window().unwrap();
+                let document = window.document().unwrap();
+
+                match key.as_str() {
+                    "s" => {
+                        event.prevent_default();
+                        if let Some(input) = document.get_element_by_id("search-input") {
+                            if let Some(input) = input.dyn_ref::<web_sys::HtmlInputElement>() {
+                                let _ = input.focus();
+                            }
+                        }
+                    }
+                    "r" => {
+                        if let Some(recent) = document.get_element_by_id("recently-copied") {
+                            recent.scroll_into_view();
+                        }
+                    }
+                    _ => {}
+                }
+            });
+
+        let _ =
+            document.add_event_listener_with_callback("keydown", closure.as_ref().unchecked_ref());
+        closure.forget();
     });
 
     let filtered_emojis = Memo::new(move |_| {
@@ -83,7 +130,6 @@ pub fn App() -> impl IntoView {
     let handle_emoji_click = move |emoji: Emoji| {
         copy_to_clipboard(&emoji.emoji);
 
-        // Add to recently copied (max 25, no duplicates)
         let mut recent = recently_copied.get();
         recent.retain(|e| e.hexcode != emoji.hexcode);
         recent.insert(0, emoji.clone());

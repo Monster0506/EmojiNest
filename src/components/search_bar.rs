@@ -8,9 +8,10 @@ pub fn SearchBar(
     view! {
         <div class="search-container mb-4">
             <input
+                id="search-input"
                 class="input is-large search-input"
                 type="text"
-                placeholder="Search emojis..."
+                placeholder="Search emojis... (Press s to focus)"
                 prop:value=search_query
                 on:input=move |ev| {
                     set_search_query.set(event_target_value(&ev));

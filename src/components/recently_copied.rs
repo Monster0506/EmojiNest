@@ -12,8 +12,8 @@ pub fn RecentlyCopied(
         <Show when=move || !emojis.get().is_empty()>
             {
                 let on_click = on_click.clone();
-                view! {
-                    <div class="box mt-4">
+                    view! {
+                        <div id="recently-copied" class="box mt-4">
                         <p class="is-size-7 has-text-grey mb-2">
                             <strong>"Recently Copied"</strong>
                         </p>
