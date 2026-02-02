@@ -1,1 +1,18 @@
+# Build output
+/dist
 /target
+
+# Trunk
+/.trunk
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
